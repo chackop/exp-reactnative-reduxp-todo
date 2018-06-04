@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Navigator } from 'react-native';
+// import { StackNavigator, } from 'react-navigation';
 import TaskList from "./TaskList";
 
 export default class App extends React.Component {
@@ -21,13 +22,32 @@ export default class App extends React.Component {
     console.log('on add started');
   }
 
+  renderScene(route, nav) {
+    switch (route.name) {
+      case 'taskform':
+        return (
+          <Text>Add form comes here!</Text>
+        );
+      default:
+        return (
+          <TaskList
+            onAddStarted={this.onAddStarted.bind(this)}
+            todos={this.state.todos}
+          />
+        );
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Text>This is a todo app!</Text>
-        <TaskList
-          onAddStarted={this.onAddStarted.bind(this)} 
-          todos={this.state.todos} 
+        <Navigator
+          initialRoute={{ name: 'tasklist', index: 0 }}
+          ref={((nav) => {
+            this.nav = nav
+          })}
+          renderScene={this.renderScene.bind(this)}
         />
       </View>
     );

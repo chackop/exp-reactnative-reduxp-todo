@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { StackNavigator, createStackNavigator } from 'react-navigation';
 import { Navigator } from "react-native-deprecated-custom-component"; // to remove
 import TaskList from "./TaskList";
+import TaskForm from "./TaskForm";
 
 export default class App extends React.Component {
   constructor(props, context) {
@@ -26,11 +27,28 @@ export default class App extends React.Component {
     });
   }
 
+  onAdd(task) {
+    console.log('as task is added', task);
+    this.state.todos.push({
+      task: this.task,
+    });
+    this.setState({ todos });
+    this.nav.pop();
+  }
+
+  onCancel() {
+    console.log('cancelled');
+    this.nav.pop();
+  }
+
   renderScene(route, nav) {
     switch (route.name) {
       case 'taskform':
         return (
-          <Text>Add form comes here!</Text>
+          <TaskForm
+              onAdd={this.onAdd.bind(this)}       
+              onCancel={this.onCancel.bind(this)}
+          />
         );
       default:
         return (
@@ -46,13 +64,14 @@ export default class App extends React.Component {
     return (
       <View>
         <Text>This is a todo app!</Text>
-        <Navigator
+        {/* <Navigator
           initialRoute={{ name: 'tasklist', index: 0 }}
           ref={((nav) => {
             this.nav = nav
           })}
           renderScene={this.renderScene.bind(this)}
-        />
+        /> */}
+        <TaskForm />        
         {/* <RootStack /> */}
       </View>
     );

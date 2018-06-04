@@ -17,11 +17,18 @@ export default class App extends React.Component {
     };
   }
 
+  onAddStarted() {
+    console.log('on add started');
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text>This is a todo app!</Text>
-        <TaskList todos={this.state.todos} />
+        <TaskList
+          onAddStarted={this.onAddStarted.bind(this)} 
+          todos={this.state.todos} 
+        />
       </View>
     );
   }

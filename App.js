@@ -36,6 +36,14 @@ export default class App extends React.Component {
     this.nav.pop();
   }
 
+  onDone(todo) {
+    console.log('task was completed', todo.task);
+    const filteredTodos = this.state.todos.filter((filteredTodo) => {
+      return filteredTodo !== todo;
+    });
+    this.setState({ todos: filteredTodos });
+  }
+
   onCancel() {
     console.log('cancelled');
     this.nav.pop();
@@ -55,6 +63,7 @@ export default class App extends React.Component {
           <TaskList
             onAddStarted={this.onAddStarted.bind(this)}
             todos={this.state.todos}
+            onDone={this.onDone.bind(this)}
           />
         );
     }

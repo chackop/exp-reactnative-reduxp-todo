@@ -6,11 +6,14 @@ export default class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-        todos: [
-          {
-            task: 'Learn react native',
-          }
-        ]
+      todos: [
+        {
+          task: 'Learn react native task',
+        },
+        {
+          task: 'Learn Redux task',
+        }
+      ]
     };
   }
 
@@ -18,7 +21,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text>This is a todo app!</Text>
-        <TaskList />
+        <TaskList todos={this.state.todos} />
       </View>
     );
   }

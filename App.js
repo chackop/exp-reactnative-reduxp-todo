@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Navigator } from 'react-native';
-// import { StackNavigator, } from 'react-navigation';
+import { StyleSheet, Text, View } from 'react-native';
+import { StackNavigator, createStackNavigator } from 'react-navigation';
+import { Navigator } from "react-native-deprecated-custom-component"; // to remove
 import TaskList from "./TaskList";
 
 export default class App extends React.Component {
@@ -20,6 +21,9 @@ export default class App extends React.Component {
 
   onAddStarted() {
     console.log('on add started');
+    this.nav.push({
+      name: 'taskform'
+    });
   }
 
   renderScene(route, nav) {
@@ -49,6 +53,7 @@ export default class App extends React.Component {
           })}
           renderScene={this.renderScene.bind(this)}
         />
+        {/* <RootStack /> */}
       </View>
     );
   }
@@ -62,3 +67,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+const RootStack = createStackNavigator(
+  {
+    Home: TaskList,
+    // Form: TaskForm,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);

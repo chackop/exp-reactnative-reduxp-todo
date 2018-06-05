@@ -63,21 +63,29 @@ export default class App extends React.Component {
     this.nav.pop();
   }
 
+  onToggle() {
+    store.dispatch({
+      type: 'TOGGLE_STATE',
+    })
+  }
+
   renderScene(route, nav) {
     switch (route.name) {
       case 'taskform':
         return (
           <TaskForm
-              onAdd={this.onAdd.bind(this)}       
-              onCancel={this.onCancel.bind(this)}
+            onAdd={this.onAdd.bind(this)}
+            onCancel={this.onCancel.bind(this)}
           />
         );
       default:
         return (
           <TaskList
+            filter={this.state.filter}
             onAddStarted={this.onAddStarted.bind(this)}
             todos={this.state.todos}
             onDone={this.onDone.bind(this)}
+            onToggle={this.onToggle.bind(this)}
           />
         );
     }
@@ -94,7 +102,7 @@ export default class App extends React.Component {
           })}
           renderScene={this.renderScene.bind(this)}
         /> */}
-        <TaskForm />        
+        <TaskForm />
         {/* <RootStack /> */}
       </View>
     );

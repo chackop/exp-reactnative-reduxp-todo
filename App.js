@@ -4,20 +4,26 @@ import { StackNavigator, createStackNavigator } from 'react-navigation';
 import { Navigator } from "react-native-deprecated-custom-component"; // to remove
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
+import store from './todoStore';
 
 export default class App extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      todos: [
-        {
-          task: 'Learn react native task',
-        },
-        {
-          task: 'Learn Redux task',
-        }
-      ]
-    };
+    // this.state = {
+    //   todos: [
+    //     {
+    //       task: 'Learn react native task',
+    //     },
+    //     {
+    //       task: 'Learn Redux task',
+    //     }
+    //   ]
+    // };
+    this.state = store.getState();
+
+    store.subscribe(() => {
+      this.setState(store.getState());
+    });
   }
 
   onAddStarted() {
@@ -29,19 +35,27 @@ export default class App extends React.Component {
 
   onAdd(task) {
     console.log('as task is added', task);
-    this.state.todos.push({
-      task: this.task,
+    // this.state.todos.push({
+    //   task: this.task,
+    // });
+    // this.setState({ todos });
+    store.dispatch({
+      type: 'ADD_TODO',
+      task,
     });
-    this.setState({ todos });
     this.nav.pop();
   }
 
   onDone(todo) {
     console.log('task was completed', todo.task);
-    const filteredTodos = this.state.todos.filter((filteredTodo) => {
-      return filteredTodo !== todo;
-    });
-    this.setState({ todos: filteredTodos });
+    // const filteredTodos = this.state.todos.filter((filteredTodo) => {
+    //   return filteredTodo !== todo;
+    // });
+    // this.setState({ todos: filteredTodos });
+    store.dispatch({
+      type: 'DONE_TODO',
+      todo,
+    })
   }
 
   onCancel() {
